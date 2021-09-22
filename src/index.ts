@@ -77,7 +77,7 @@ async function etherArbitrage() {
     // const usdtAddress = "0x110a13fc3efe6a245b50102d2d79b3e76125ae83";
 
 
-    const daiAddress  = "0xc2118d4d90b274016cB7a54c03EF52E6c537D957";
+    const daiAddress = "0xc2118d4d90b274016cB7a54c03EF52E6c537D957";
     const uniswapDaiAddress = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";
     const uniswapWethAddress = "0xc778417e063141139fce010982780140aa0cd5ab";
     // const sushiDaiAddress = "0xc2118d4d90b274016cb7a54c03ef52e6c537d957";
@@ -160,7 +160,7 @@ async function etherArbitrage() {
 
             if (!shouldTrade) {
 
-                 console.log('WILL NOT TRADE : Reason: ( Not Profitable ) \n\n');
+                console.log('WILL NOT TRADE : Reason: ( Not Profitable ) \n\n');
                 return;
             }
 
@@ -187,33 +187,33 @@ async function etherArbitrage() {
             */
 
             const shouldSendTx = shouldStartEth
-                 ? gasCost / ETH_TRADE < spread
-                 : gasCost / (DAI_TRADE / priceUniswap) < spread;
+                ? gasCost / ETH_TRADE < spread
+                : gasCost / (DAI_TRADE / priceUniswap) < spread;
 
             console.log("shouldSendTx ", shouldSendTx);
-             // don't trade if gasCost is higher than the spread
-             if (!shouldSendTx) {
-                 console.log('WILL NOT TRADE : Reason: ( gasCost too high ) \n\n');
-                 return;
+            // don't trade if gasCost is higher than the spread
+            if (!shouldSendTx) {
+                console.log('WILL NOT TRADE : Reason: ( gasCost too high ) \n\n');
+                return;
 
-             }
+            }
 
-             const options = {
-                 gasPrice,
-                 gasLimit,
-             };
-             const tx = await sushiEthDai.swap(
-                 !shouldStartEth ? DAI_TRADE : 0,
-                 shouldStartEth ? ETH_TRADE : 0,
-                 flashLoanerAddress,
-                 ethers.utils.toUtf8Bytes("1"),
-                 options
-             );
+            const options = {
+                gasPrice,
+                gasLimit,
+            };
+            const tx = await sushiEthDai.swap(
+                !shouldStartEth ? DAI_TRADE : 0,
+                shouldStartEth ? ETH_TRADE : 0,
+                flashLoanerAddress,
+                ethers.utils.toUtf8Bytes("1"),
+                options
+            );
 
-             console.log("ARBITRAGE EXECUTED! PENDING Transaction TO BE MINED \n",tx);
+            console.log("ARBITRAGE EXECUTED! PENDING Transaction TO BE MINED \n", tx);
 
 
-             await tx.wait();
+            await tx.wait();
 
             console.log("SUCCESS! Transaction MINED \n\n ");
         } catch (err) {
